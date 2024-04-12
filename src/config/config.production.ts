@@ -17,7 +17,7 @@ export default registerAs('config-info', () => ({
             port: 3306,
             username: fs.readFileSync(MYSQL_USER_NAME).toString(),
             password: fs.readFileSync(MYSQL_PASSWORD).toString(),
-            database: 'test',
+            database: 'msa',
             entities: ['dist/!**!/entities/!*.entity{.ts,.js}'],
             synchronize: false,
             logging: 'all'
