@@ -29,7 +29,7 @@ $ cd /d/www/nest-msa-api/payment-api
 $ docker build -t payment-api -f ./dockerfile/Dockerfile-local .
 
 # 도커 컨테이너 실행
-$ docker run -d --name payment-api -p 8003:8003 payment-api
+$ docker run -d --name payment-api -p 3003:8003 payment-api
 
 ----------------------------------------------------------------
 
@@ -55,6 +55,10 @@ $ cd /d/www/nest-msa-api/payment-api
 # 이미지 빌드 및 컨테이너 실행 (백그라운드로 실행)
 $ docker-compose up -d --build
 ~~~
+
+### docker container와 통신 확인
+1. browser에서 localhost:3003로 접속하여 확인
+2. curl http://localhost:3003 명령어를 통해 확인
 
 ### 컨테이너 오케스트레이션 사용 예정
 (Docker Swarm 또는 Kubernetes)
