@@ -8,7 +8,7 @@ const MYSQL_USER_NAME = path.resolve('./secret/development/mysql-username');
 const MYSQL_PASSWORD = path.resolve('./secret/development/mysql-password');
 
 export default registerAs('config-info', () => ({
-    port: parseInt(process.env.PORT, 10) || 8003,
+    //port: parseInt(process.env.PORT, 10) || 8003,
 
     database: {
         mysql: {
