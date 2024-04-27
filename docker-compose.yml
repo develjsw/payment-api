@@ -1,7 +1,20 @@
 version: '3.9'
 
 services:
-  payment:
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-server3
+    ports:
+      - "33063:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=test1234//
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=test1234//
+      - MYSQL_DATABASE=msa
+    restart: always
+    networks:
+      - msa-api-network
+  payment-api:
     image: payment-api:latest
     build:
       context: .
@@ -11,9 +24,12 @@ services:
     environment:
       - PORT=8003
       - NODE_ENV=local
+      - MYSQL_HOST_ENV=mysql-db
     restart: always
     networks:
       - msa-api-network
+    depends_on:
+      - mysql-db
 
 networks:
   msa-api-network:
