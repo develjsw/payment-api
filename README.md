@@ -14,13 +14,11 @@
 
 ### 특이사항
 
-mysql은 별도의 dockerfile없이 AWS RDB를 사용하여 연결
-
-단일 dockerfile로 실행하는 경우 main.ts에서 config file을 통해 받아온 port를 주입해서 사용해도 문제가 없었으나, docker-compose.yml파일로 실행하는 경우 host를 포함한 외부와의 통신이 불가능하여 main.ts에 port 하드코딩 진행
+mysql AWS RDB → docker image 사용으로 변경
 
 ### docker 실행
 ~~~
-[ 1번 방식 - dockerfile ]
+[ 1번 방식 - dockerfile (** RDB 사용시에만 아래 명령어로 진행 **) ]
 
 # payment-api 프로젝트로 위치 이동
 $ cd /d/www/nest-msa-api/payment-api
@@ -56,9 +54,53 @@ $ cd /d/www/nest-msa-api/payment-api
 $ docker-compose up -d --build
 ~~~
 
-### docker container와 통신 확인
-1. browser에서 localhost:3003로 접속하여 확인
-2. curl http://localhost:3003 명령어를 통해 확인
+### docker container ip 확인
+~~~
+[ 1번 방식 ]
 
+# docker network 조회
+$ docker network ls
+
+# 위에서 조회한 값 중에 내가 설정한 네트워크 값으로 조회
+$ docker network inspect <docker network name>
+ex) docker network inspect payment-api_msa-api-network
+→ containers에 표시되어 있는 IP를 통해 확인 가능하며, 해당 아이피는 외부 접근이 아닌 container끼리 통신할 때 사용
+~~~
+~~~
+[ 2번 방식 ]
+
+# 컨테이너 접속 (쉘 종류에 따라 사용 가능한 명령어 차이 존재)
+$ docker exec -it <container id> </bin/sh | /bin/bash | bash>
+ex) docker exec -it a4e61eccfb72 /bin/sh
+
+# 아이피 조회
+$ ip addr
+~~~
+~~~
+[ 3번 방식 ]
+
+# 특정 container의 docker network 정보 확인
+$ docker inspect "{{ .NetworkSettings }}" <container id>
+→ NetworkSettings.Networks.<설정한 네트워크>.IPAddress를 통해 container ip 확인
+~~~
+
+### docker container 통신 확인
+1. host ↔ api container 통신
+   - [ 1번 방식 ] : browser에서 localhost:3003로 접속하여 확인 
+   - [ 2번 방식 ] : host CLI(cmd/powershell/git bash)에서 아래 명령어 실행 
+   ~~~
+   # host에서 curl 명령어를 통해 확인
+   $ curl http://localhost:3003
+   ~~~ 
+2. api container ↔ db container 통신
+   ~~~
+   # 컨테이너 접속 (쉘 종류에 따라 사용 가능한 명령어 차이 존재)
+   $ docker exec -it <container id> </bin/sh | /bin/bash | bash>
+   ex) docker exec -it a4e61eccfb72 /bin/sh
+   
+   # 'api 컨테이너 내부'에서 '호스트명:db 컨테이너 포트'에 연결되는지 확인
+   $ telnet host.docker.internal:3306
+   ~~~
+   
 ### 컨테이너 오케스트레이션 사용 예정
 (Docker Swarm 또는 Kubernetes)
