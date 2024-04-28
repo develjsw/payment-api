@@ -106,7 +106,7 @@ $ docker inspect "{{ .NetworkSettings }}" <container id>
 host에서 DB client tool을 사용하여 docker-compose.yml 파일에서 설정한 ports 값, environment의 MYSQL_USER, MYSQL_PASSWORD값으로 접속 확인   
 ex)
 - host : localhost,
-- port : 33061,
+- port : 33063,
 - user : admin,
 - password : test1234//
    
