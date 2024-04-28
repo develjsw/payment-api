@@ -101,6 +101,14 @@ $ docker inspect "{{ .NetworkSettings }}" <container id>
    # 'api 컨테이너 내부'에서 '호스트명:db 컨테이너 포트'에 연결되는지 확인
    $ telnet host.docker.internal:3306
    ~~~
+
+### DB 접속 확인
+host에서 DB client tool을 사용하여 docker-compose.yml 파일에서 설정한 ports 값, environment의 MYSQL_USER, MYSQL_PASSWORD값으로 접속 확인   
+ex)
+- host : localhost,
+- port : 33061,
+- user : admin,
+- password : test1234//
    
 ### 컨테이너 오케스트레이션 사용 예정
 (Docker Swarm 또는 Kubernetes)

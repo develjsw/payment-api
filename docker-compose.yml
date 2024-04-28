@@ -6,6 +6,12 @@ services:
     container_name: mysql-server3
     ports:
       - "33063:3306"
+    #############################################################
+    # - env 정보 관리 방법 변경 필요 -
+    # 1. env_file로 관리하는 방법
+    # 2. docker swarm을 사용한다고 가정할 때 docker secret을 통해 관리
+    # 3. kubernetes의 경우는 어떻게 관리하는지 확인 필요
+    #############################################################
     environment:
       - MYSQL_ROOT_PASSWORD=test1234//
       - MYSQL_USER=admin
@@ -14,6 +20,7 @@ services:
     restart: always
     networks:
       - msa-api-network
+
   payment-api:
     image: payment-api:latest
     build:

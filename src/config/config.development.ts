@@ -19,7 +19,7 @@ export default registerAs('config-info', () => ({
             password: fs.readFileSync(MYSQL_PASSWORD).toString(),
             database: 'msa',
             entities: ['dist/!**!/entities/!*.entity{.ts,.js}'],
-            synchronize: false,
+            synchronize: true,
             logging: 'all'
         }
     }
