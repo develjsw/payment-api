@@ -2,16 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import configLocal from './config/config.local';
 import configDevelopment from './config/config.development';
 import configProduction from './config/config.production';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentModule } from './payment/payment.module';
 
 let config;
-if (process.env.NODE_ENV === 'production') {
-    config = configProduction;
-} else {
-    config = configDevelopment;
+switch (process.env.NODE_ENV) {
+    case 'production':
+        config = configProduction;
+        break;
+    case 'development':
+        config = configDevelopment;
+        break;
+    default:
+        config = configLocal;
+        break;
 }
 
 @Module({
