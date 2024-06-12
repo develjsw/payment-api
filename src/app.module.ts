@@ -2,22 +2,22 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import configLocal from './config/config.local';
-import configDevelopment from './config/config.development';
-import configProduction from './config/config.production';
+import localConfig from './config/local.config';
+import developmentConfig from './config/development.config';
+import productionConfig from './config/production.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentModule } from './payment/payment.module';
 
 let config;
 switch (process.env.NODE_ENV) {
     case 'production':
-        config = configProduction;
+        config = productionConfig;
         break;
     case 'development':
-        config = configDevelopment;
+        config = developmentConfig;
         break;
     default:
-        config = configLocal;
+        config = localConfig;
         break;
 }
 
@@ -31,7 +31,7 @@ switch (process.env.NODE_ENV) {
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) =>
-                // TODO : config/config.development.ts 파일에 type 생성 후, object 타입 변경 예정
+                // TODO : config/development.config.ts 파일에 type 생성 후, object 타입 변경 예정
                 configService.get<object>('config-info.database.mysql'),
             inject: [ConfigService]
         }),
