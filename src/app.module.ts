@@ -7,7 +7,7 @@ import developmentConfig from './config/development.config';
 import productionConfig from './config/production.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentModule } from './payment/payment.module';
-import { LoggerMiddleware } from './common/logger/logger.middleware';
+import { LoggerMiddleware } from './logger/logger.middleware';
 
 let config;
 switch (process.env.NODE_ENV) {
